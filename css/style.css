@@ -1,16 +1,15 @@
 body {
-
+	/*overflow: none;*/
 }
 
 .message-container {
 	width: 100%;
-	height: 50px;
 	background-color: #E7E7E7;
 	margin-bottom: 1px;
 }
 
 #chat-log {
-	height: 400px;
+	height: 500px;
 	overflow-y: scroll;
 }
 
@@ -22,7 +21,22 @@ body {
 #message-body {
 	font-size: 16px;
 	padding-left: 10px;
+	/*overflow:hidden;*/
+   	word-wrap:break-word;	
+   	min-height: 40px;
 	/*overflow: hidden;*/
+	height:auto;
+
+}
+
+#message-from {
+	font-size: 16px;
+	padding-left: 5px;
+}
+
+#chat-box-input {
+	padding-top: 10px;
+	position: absolute;
 }
 
 #message-body-input {
@@ -31,13 +45,4 @@ body {
 
 #message-from-input {
 	width:300px;
-}
-
-#chat-box-input {
-	padding-top: 10px;
-}
-
-#message-from {
-	font-size: 16px;
-	padding-left: 5px;
 }

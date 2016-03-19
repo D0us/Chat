@@ -90,7 +90,7 @@ function get_messages(load_old) {
 				// console.log(message);
 			}
 			if (load_old) {
-				render_messages(messages, load_old);		
+				render_old_messages(messages);		
 			} else {
 				render_messages(messages);
 			}
@@ -98,7 +98,71 @@ function get_messages(load_old) {
 	});
 }
 
-function render_messages(messages, load_old) {
+function render_old_messages(messages) {
+	var new_messages = false;
+
+	for (var i = messages.length-1; i > 0; i--) {
+		var message = messages[i];
+		if (!document.getElementById(message.id)) {
+
+			new_messages = true;
+
+
+			var message_from = message.from;
+			if (message.from === null) {
+				message_from = 'Anon';
+			}
+
+			//create message html
+			var message_html = '<div class="message-container" id="' + message.id + '">' + 	
+			'<span id="message-from">' +  message_from + '</span>' +
+			'<time id="message-date" class="timeago" datetime="' + message.dateadded + '">July 17, 2008</time>' +
+			'<p id="message-body">' + linkify(message.body) + '</p>';
+
+			//insert html into top
+			$('#chat-log-top').after(message_html);
+			window.global_msgcount++;
+
+			//  if (new_messages ) {
+			// 	$('#chat-log').animate({
+			// 		scrollTop: $('#' + messages[messages.length-1].id).offset().top
+			// 	}, 300);			
+			// }
+
+			jQuery("time.timeago").timeago();
+		}
+	}
+
+}
+
+//http://stackoverflow.com/questions/37684/how-to-replace-plain-urls-with-links
+function linkify(inputText) {
+    var replacedText, replacePattern1, replacePattern2, replacePattern3;
+
+    //URLs starting with http://, https://, or ftp://
+    replacePattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
+    replacedText = inputText.replace(replacePattern1, '<a href="$1" target="_blank">$1</a>');
+
+    //URLs starting with "www."
+    replacePattern2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
+    replacedText = replacedText.replace(replacePattern2, '$1<a href="http://$2" target="_blank">$2</a>');
+
+    //Change email addresses to mailto:: links.
+    replacePattern3 = /(([a-zA-Z0-9\-\_\.])+@[a-zA-Z\_]+?(\.[a-zA-Z]{2,6})+)/gim;
+    replacedText = replacedText.replace(replacePattern3, '<a href="mailto:$1">$1</a>');
+
+	//URLs starting with http://, https://, or ftp:// with image formats
+    replacePattern4 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|].jpg)/gim;
+    replacedText = inputText.replace(replacePattern4, '<img src="$1" />');
+
+	// //URLs starting with "www." with image formats 
+ //    replacePattern5 = /(^|[^\/])(www\.[\S]+(\b|$).(jpg|png|gif))/gim;
+ //    replacedText = replacedText.replace(replacePattern5, '<img src="$1" />');
+
+    return replacedText;
+}
+
+function render_messages(messages) {
 
 	var new_messages = false;
 
@@ -116,74 +180,28 @@ function render_messages(messages, load_old) {
 			var message_html = '<div class="message-container" id="' + message.id + '">' + 	
 			'<span id="message-from">' +  message_from + '</span>' +
 			'<time id="message-date" class="timeago" datetime="' + message.dateadded + '">July 17, 2008</time>' +
-			'<p id="message-body">' + message.body + '</p>';
+			'<p id="message-body">' + linkify(message.body) + '</p></div>';
 
-			// $('p').html(function(i, text) {
-			//     return text.replace(
-			//         /\bhttp:\/\/([\w\.-]+\.)+[a-z]{2,}\/.+\b/gi,
-			//         '<a href="$&">$&</a>'
-			//     );
-			// });
-		
-		    // $('<img>', {
-		    //     src: message['body'],
-		    //     error: function() { return; },
-		    //     load: function() { 
-		    //     	// alert(message['body']);
-		    //     	message_html += '<div id="message-body-img">' + '<img src="' + message['body'] + '">' + '</div></div>';
-		    //     	return message_html;
-		    //     ;}
-		    // });
-
-		    // message_html += '</div>';
-
-			// if (IsValidImageUrl(message['body'])) {
-			// 	alert(message['body']);
-			// 	message_html += '<div id="message-body-img">' + '<img src="' + message['body'] + '">' + '</div></div>';
-			// }
-
-			//If messages are new -> load after most recent displayed
-			if (load_old) {
-				$('#chat-log-top').after(message_html);
-					window.global_msgcount++;
+			$('#chat-log-bottom').before(message_html);
+			if (window.global_msgcount >= 100) {
+				$('#chat-log-top').after().remove();
 			} else {
-				$('#chat-log-bottom').before(message_html);
-				if (window.global_msgcount >= 100) {
-					$('#chat-log-top').after().remove();
-				} else {
-					window.global_msgcount++;
-				}				
-			}
+				window.global_msgcount++;
+			}				
+
 			console.log(message.id);
 
 		}
 	}
 
-	if (new_messages && !load_old) {
+	if (new_messages) {
 		$('#chat-log').animate({
 			scrollTop: $("#chat-log-bottom").offset().top
-		}, 300);							
-	// } else if (new_messages && load_old) {
-	// 	$('#chat-log').animate({
-	// 		scrollTop: $('#' + messages[messages.length-1].id).offset().top
-	// 	}, 300);			
+		}, 100);							
 	}
 	jQuery("time.timeago").timeago();
 
 }
-
-// function IsValidImageUrl(url) {
-
-// 	valid = false;
-
-//     $('<img>', {
-//         src: url,
-//         error: function(valid) { valid = false; return valid; },
-//         load: function(valid) { valid  = true; return valid; }
-//     });
-
-//     return $('<img>').error;
-// }
 
 
 function loadImage(path, width, height, target) {

@@ -34,7 +34,7 @@
 
 	<div class="container">
 
-		<h1>Chat</h1>
+		<!-- <h1>Chat</h1> -->
 			<div id="chat-log">
 				<div id="chat-log-top"></div>
 					<!-- Messages go here -->
