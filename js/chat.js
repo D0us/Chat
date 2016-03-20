@@ -60,7 +60,25 @@ function post_message() {
 			'ajax': true
 		},
 		success: function(data) {
+			check_for_images(message_body);
 			get_messages();
+		}
+	});
+}
+
+function post_image(url) {
+
+	$.ajax({
+		method: 'GET',
+		url: 'includes/chat_ajax.php',
+		data: {
+			'data': {function : 'post_image',
+					 input : url
+					},
+			'ajax': true
+		},
+		success: function(data) {
+			alert("posted img!");
 		}
 	});
 }
@@ -85,10 +103,11 @@ function get_messages(load_old) {
 
 			var messages = JSON.parse(data);
 
-			for (var i = 0; i < messages.length; i++) {
-				var message = messages[i];
-				// console.log(message);
-			}
+			// for (var i = 0; i < messages.length; i++) {
+			// 	var message = messages[i];
+			// 	// console.log(message);
+			// }
+			
 			if (load_old) {
 				render_old_messages(messages);		
 			} else {
@@ -117,7 +136,7 @@ function render_old_messages(messages) {
 			var message_html = '<div class="message-container" id="' + message.id + '">' + 	
 			'<span id="message-from">' +  message_from + '</span>' +
 			'<time id="message-date" class="timeago" datetime="' + message.dateadded + '">July 17, 2008</time>' +
-			'<p id="message-body">' + linkify(message.body) + '</p>';
+			'<p id="message-body">' + linkify(message.body) + '</p></div>';
 
 			//insert html into top
 			$('#chat-log-top').after(message_html);
@@ -133,33 +152,6 @@ function render_old_messages(messages) {
 		}
 	}
 
-}
-
-//http://stackoverflow.com/questions/37684/how-to-replace-plain-urls-with-links
-function linkify(inputText) {
-    var replacedText, replacePattern1, replacePattern2, replacePattern3;
-
-    //URLs starting with http://, https://, or ftp://
-    replacePattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
-    replacedText = inputText.replace(replacePattern1, '<a href="$1" target="_blank">$1</a>');
-
-    //URLs starting with "www."
-    replacePattern2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
-    replacedText = replacedText.replace(replacePattern2, '$1<a href="http://$2" target="_blank">$2</a>');
-
-    //Change email addresses to mailto:: links.
-    replacePattern3 = /(([a-zA-Z0-9\-\_\.])+@[a-zA-Z\_]+?(\.[a-zA-Z]{2,6})+)/gim;
-    replacedText = replacedText.replace(replacePattern3, '<a href="mailto:$1">$1</a>');
-
-	//URLs starting with http://, https://, or ftp:// with image formats
-    replacePattern4 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|].jpg)/gim;
-    replacedText = inputText.replace(replacePattern4, '<img src="$1" />');
-
-	// //URLs starting with "www." with image formats 
- //    replacePattern5 = /(^|[^\/])(www\.[\S]+(\b|$).(jpg|png|gif))/gim;
- //    replacedText = replacedText.replace(replacePattern5, '<img src="$1" />');
-
-    return replacedText;
 }
 
 function render_messages(messages) {
@@ -183,7 +175,7 @@ function render_messages(messages) {
 			'<p id="message-body">' + linkify(message.body) + '</p></div>';
 
 			$('#chat-log-bottom').before(message_html);
-			if (window.global_msgcount >= 100) {
+			if (window.global_msgcount >= 300) {
 				$('#chat-log-top').after().remove();
 			} else {
 				window.global_msgcount++;
@@ -201,6 +193,54 @@ function render_messages(messages) {
 	}
 	jQuery("time.timeago").timeago();
 
+}
+
+function check_for_images(text) {
+    var url, pattern1, pattern2;
+
+	//URLs starting with http://, https://, or ftp:// with image formats
+    pattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|].(jpg|png|gif))/gim;
+    url = text.match(pattern1);
+    // several urls in same text? for url in urls
+    if (url) {
+    	post_image(url);
+
+    }
+
+	// //URLs starting with "www." with image formats 
+    pattern2 = /(^|[^\/])(www\.[\S]+(\b|$).(jpg|png|gif))/gim;
+    url = text.match(pattern2);
+    if (url) {
+    	post_image(url);
+    }
+
+}
+
+//http://stackoverflow.com/questions/37684/how-to-replace-plain-urls-with-links
+function linkify(inputText) {
+    var replacedText, replacePattern1, replacePattern2, replacePattern3;
+
+    // //URLs starting with http://, https://, or ftp://
+    // replacePattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
+    // replacedText = inputText.replace(replacePattern1, '<a href="$1" target="_blank">$1</a>');
+
+    // //URLs starting with "www."
+    // replacePattern2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
+    // replacedText = replacedText.replace(replacePattern2, '$1<a href="http://$2" target="_blank">$2</a>');
+
+    // //Change email addresses to mailto:: links.
+    // replacePattern3 = /(([a-zA-Z0-9\-\_\.])+@[a-zA-Z\_]+?(\.[a-zA-Z]{2,6})+)/gim;
+    // replacedText = replacedText.replace(replacePattern3, '<a href="mailto:$1">$1</a>');
+
+	//URLs starting with http://, https://, or ftp:// with image formats
+    replacePattern4 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|].(jpg|png|gif))/gim;
+    replacedText = inputText.replace(replacePattern4, '<img class="posted-img img-responsive " src="$1" />');
+
+	// //URLs starting with "www." with image formats 
+    replacePattern5 = /(^|[^\/])(www\.[\S]+(\b|$).(jpg|png|gif))/gim;
+    replacedText = replacedText.replace(replacePattern5, '<img class="posted-img img-responsive" src="$1" />');
+
+    return replacedText;
 }
 
 

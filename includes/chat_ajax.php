@@ -18,6 +18,9 @@ switch ($function) {
 		get_messages($input);
 	break;
 
+	case 'post_image':
+		post_image($input);
+	break;
 }
 
 
@@ -49,6 +52,39 @@ function post_message($array) {
 	$dbh = $db->connect();
 
 	$db->add_message($dbh, $message_body, $message_from);
+
+}
+
+function get_images($offset) {
+
+	$params = array(
+		'limit' => 10,
+		'offset' => (int)$offset
+	);
+
+
+	$db = new database;
+	$dbh = $db->connect();
+
+	$history = $db->get_images($dbh, $params);
+
+	echo $history;
+
+	// $history = array_reverse($history);
+
+	// $encoded_history = json_encode($history);
+	// echo $encoded_history;
+
+}
+
+function post_image($array) {
+
+	$url = $array[0];
+
+	$db = new database;
+	$dbh = $db->connect();
+
+	$db->add_image($dbh, $url);
 
 }
 
