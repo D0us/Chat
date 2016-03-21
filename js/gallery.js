@@ -19,8 +19,6 @@ function get_images() {
 		},
 		success: function(data) {
 
-			alert(data);
-
 			var images = JSON.parse(data);
 
 			render_images(images);
@@ -32,7 +30,15 @@ function render_images(images) {
 
 	for (var i = 0; i < images.length; i++) {
 		var image = images[i];
-		alert(image.url);
+
+		var image_html = '<div class="col-lg-3 col-md-4 col-xs-6 thumb">' +
+                    	'<a class="thumbnail" href="' + image.url +'" target="_blank" >' +
+                        	'<img class="img-responsive" src="' + image.url + '" alt="">' +
+                    	'</a>' +
+                	'</div>';
+		$('#image-gallery-top').after(image_html);                	
+
+
 	}
 
 }

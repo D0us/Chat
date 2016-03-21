@@ -78,7 +78,7 @@ function post_image(url) {
 			'ajax': true
 		},
 		success: function(data) {
-			alert("posted img!");
+			
 		}
 	});
 }
@@ -199,16 +199,14 @@ function check_for_images(text) {
     var url, pattern1, pattern2;
 
 	//URLs starting with http://, https://, or ftp:// with image formats
-    pattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|].(jpg|png|gif))/gim;
+    pattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|].(jpg|jpeg|png|gif))/gim;
     url = text.match(pattern1);
     // several urls in same text? for url in urls
     if (url) {
     	post_image(url);
-
     }
-
 	// //URLs starting with "www." with image formats 
-    pattern2 = /(^|[^\/])(www\.[\S]+(\b|$).(jpg|png|gif))/gim;
+    pattern2 = /(^|[^\/])(www\.[\S]+(\b|$).(jpg|jpeg|png|gif))/gim;
     url = text.match(pattern2);
     if (url) {
     	post_image(url);
@@ -233,20 +231,13 @@ function linkify(inputText) {
     // replacedText = replacedText.replace(replacePattern3, '<a href="mailto:$1">$1</a>');
 
 	//URLs starting with http://, https://, or ftp:// with image formats
-    replacePattern4 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|].(jpg|png|gif))/gim;
+    replacePattern4 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|].(jpg|jpeg|png|gif))/gim;
     replacedText = inputText.replace(replacePattern4, '<img class="posted-img img-responsive " src="$1" />');
 
 	// //URLs starting with "www." with image formats 
-    replacePattern5 = /(^|[^\/])(www\.[\S]+(\b|$).(jpg|png|gif))/gim;
+    replacePattern5 = /(^|[^\/])(www\.[\S]+(\b|$).(jpg|jpeg|png|gif))/gim;
     replacedText = replacedText.replace(replacePattern5, '<img class="posted-img img-responsive" src="$1" />');
 
     return replacedText;
-}
-
-
-function loadImage(path, width, height, target) {
-    $('<img src="'+ path +'">').load(function() {
-      $(this).width(width).height(height).appendTo(target);
-    });
 }
 

@@ -60,8 +60,6 @@ class database {
 
 	function get_images($dbh, $params) {
 
-		return 'hello';
-
 		$limit = $params['limit'];
 		$offset = $params['offset'];
 

@@ -21,6 +21,10 @@ switch ($function) {
 	case 'post_image':
 		post_image($input);
 	break;
+
+	case 'get_images':
+		get_images($input);
+	break;	
 }
 
 
@@ -62,18 +66,14 @@ function get_images($offset) {
 		'offset' => (int)$offset
 	);
 
-
 	$db = new database;
 	$dbh = $db->connect();
 
 	$history = $db->get_images($dbh, $params);
+	$history = array_reverse($history);
 
-	echo $history;
-
-	// $history = array_reverse($history);
-
-	// $encoded_history = json_encode($history);
-	// echo $encoded_history;
+	$encoded_history = json_encode($history);
+	echo $encoded_history;
 
 }
 

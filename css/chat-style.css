@@ -32,10 +32,8 @@ body {
 	font-size: 16px;
 	padding-left: 10px;
 	padding-right:10px;
-	/*overflow:hidden;*/
    	word-wrap:break-word;	
    	min-height: 40px;
-	/*overflow: hidden;*/
 	height:auto;
 
 }
@@ -50,10 +48,13 @@ body {
 	position: absolute;
 }
 
-#message-body-input {
-	width: 300px;
-}
-
 #message-from-input {
 	width:300px;
+}
+
+#message-body-input {
+	width: 700px;
+}
+#send-button {
+	text-align: center;
 }
