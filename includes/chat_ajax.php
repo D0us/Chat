@@ -1,7 +1,6 @@
 <?php
 require('classes/database.class.php');
 
-
 $data = $_REQUEST['data'];
 
 $function = $data['function'];
@@ -25,8 +24,30 @@ switch ($function) {
 	case 'get_images':
 		get_images($input);
 	break;	
+
+	case 'create_chatroom':
+		create_chatroom($input);
+	break; 
+
+	case 'get_test':
+		get_test();
+	break;
 }
 
+function create_chatroom($input) {
+
+	$params = array(
+		'name' => $input,
+		'type' => 'Anonymous'
+	);
+
+	$db = new database;
+	$dbh = $db->connect();
+
+	$result = $db->create_chatroom($dbh, $params);
+
+	echo $result;
+}
 
 function get_messages($offset) {
 

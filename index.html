@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<title>Chat</title>
+	<meta charset="utf-8">
+
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/t/dt/dt-1.10.11/datatables.min.css"/>
+    <link rel="stylesheet" type="text/css" href="css/index-style.css">
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="https://cdn.datatables.net/t/dt/dt-1.10.11/datatables.min.js"></script>	
+	<script type="text/javascript" src="js/index.js"></script>
+
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+
+            <div class="navbar-header">
+                <a class="navbar-brand" href="chat.html">Chat</a>
+            </div>
+
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="index.php">Home</a></li>
+                <li><a href="gallery.html">Image Archive</a></li>
+                <li><a href="#">Contribute</a></li>
+            </ul>
+        </div>
+    </nav>
+
+	<div class="container">
+
+	<input class="btn btn-info" id="display-chatroom-creation" type="button" value="Create Chatroom">
+
+	<form id="create-chatroom-form" class="form-group">
+		<label>Chatroom Name</label><input class="form-control" id="create-chatroom-name" type="text">	
+		<label>Username</label><input class="form-control" id="create-chatroom-username" type="text">
+		<label>Password</label><input class="form-control" id="create-chatroom-password" type="text">
+		<label></label><input class="form-control" id="create-chatroom-button" type="button" value="Create Chatroom">
+	</form>
+
+		<div id="public-chats">
+			<h2>Public Chats</h2>
+
+			<table id="chat-table" class="display" cellspacing="0" width="100%">
+		        <thead>
+		            <tr>
+		                <th>Name</th>
+		                <th>Status</th>
+		                <th>User Count</th>
+		                <th>Date Added</th>
+		            </tr>
+		        </thead>
+	<!-- 	        <tfoot>
+		            <tr>
+		                <th>Name</th>
+		                <th>Status</th>
+		                <th>User Count</th>
+		                <th>Date Added</th>
+		            </tr>
+		        </tfoot>
+	 -->	        <tbody>
+		            <tr>
+		                <td>Tiger Nixon</td>
+		                <td>Anonymous</td>
+		                <td>12</td>
+		                <td>12/03/2016</td>
+		                <td><input type="button" class="join-chat" value="Join" onclick="location.href = 'chat.html'"/></td>
+		            </tr>
+		            <tr>
+		                <td>Hectic Chat</td>
+		                <td>Authenticated</td>
+		                <td>5</td>
+		                <td>12/03/2016</td>
+		                <td><input type="button" class="join-chat" value="Join" onclick="location.href = 'chat.html'"/></td>
+		            </tr>
+		            <tr>
+		                <td>Fritz</td>
+		                <td>Anonymous</td>
+		                <td>23</td>
+		                <td>12/03/2016</td>
+		                <td><input type="button" class="join-chat" value="Join" onclick="location.href = 'chat.html'"/></td>
+		            </tr>
+		            <tr>
+		                <td>lololololol</td>
+		                <td>Anonymous</td>
+		                <td>1</td>
+		                <td>12/03/2016</td>
+		                <td><input type="button" class="join-chat" value="Join" onclick="location.href = 'chat.html'"/></td>
+		            </tr>	            	            
+
+		        </tbody>
+		    </table>
+		</div>
+	</div>
+</body>
+</html>
