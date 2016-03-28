@@ -29,9 +29,22 @@ switch ($function) {
 		create_chatroom($input);
 	break; 
 
-	case 'get_test':
-		get_test();
+	case 'get_chatrooms':
+		get_chatrooms();
 	break;
+
+}
+
+function get_chatrooms() {
+
+	$db = new database;
+	$dbh = $db->connect();
+
+	$chatrooms = $db->get_chatrooms($dbh);
+	$encoded_rooms = json_encode($chatrooms);
+
+	echo $encoded_rooms;
+
 }
 
 function create_chatroom($input) {

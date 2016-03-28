@@ -1,3 +1,17 @@
+<?php
+
+require('includes/classes/database.class.php');
+
+function get_chatrooms() {
+
+	$db = new database;
+	$dbh = $db->connect();
+
+	$chatrooms = $db->get_chatrooms($dbh);
+	return $chatrooms;
+}
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,6 +50,7 @@
 	<div class="container">
 
 	<input class="btn btn-info" id="display-chatroom-creation" type="button" value="Create Chatroom">
+	<input class="btn btn-info" id="random-chatroom" type="button" value="Random Chatroom">
 
 	<form id="create-chatroom-form" class="form-group">
 		<label>Chatroom Name</label><input class="form-control" id="create-chatroom-name" type="text">	
@@ -54,18 +69,20 @@
 		                <th>Status</th>
 		                <th>User Count</th>
 		                <th>Date Added</th>
+		                <th>Join</th>
 		            </tr>
 		        </thead>
-	<!-- 	        <tfoot>
+		        <tfoot>
 		            <tr>
 		                <th>Name</th>
 		                <th>Status</th>
 		                <th>User Count</th>
 		                <th>Date Added</th>
+		                <th>lol</th>
 		            </tr>
 		        </tfoot>
-	 -->	        <tbody>
-		            <tr>
+		        <tbody>
+<!-- 		            <tr>
 		                <td>Tiger Nixon</td>
 		                <td>Anonymous</td>
 		                <td>12</td>
@@ -93,6 +110,12 @@
 		                <td>12/03/2016</td>
 		                <td><input type="button" class="join-chat" value="Join" onclick="location.href = 'chat.html'"/></td>
 		            </tr>	            	            
+ -->		            <?php
+		            	$chatrooms = get_chatrooms();
+		            	foreach ($chatrooms as $chatroom) {
+		            		echo '<tr><td>' . $chatroom['name'] . '</td><td>' . $chatroom['type'] . '</td><td>count</td><td>' . $chatroom['dateadded'] . '</td><td><input type="button" class="join-chat" value="Join" onclick="location.href = \'chat.html?id=' . $chatroom['id'] . '\'"/></td>';
+		            	}
+		            ?>
 
 		        </tbody>
 		    </table>
