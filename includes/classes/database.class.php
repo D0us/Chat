@@ -8,7 +8,7 @@ class database {
 	    $host	='localhost'; 
 	    $dbname	='chat';
 	    $user 	='chat';
-	    $pass 	='MK2QHVahFmcwbest';
+	    $pass 	='1234';
 
 	    try {  
 	      $dbh = new PDO("mysql:host=$host;dbname=$dbname", $user, $pass);  
