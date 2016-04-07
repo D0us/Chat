@@ -36,7 +36,7 @@ function get_chatrooms() {
         <div class="container-fluid">
 
             <div class="navbar-header">
-                <a class="navbar-brand" href="chat.html">Chat</a>
+                <a class="navbar-brand" href="index.php">Chat</a>
             </div>
 
             <ul class="nav navbar-nav">
