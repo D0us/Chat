@@ -62,11 +62,13 @@ function create_chatroom($input) {
 	echo $result;
 }
 
-function get_messages($offset) {
+function get_messages($input) {
 
 	$params = array(
+		'chatroom_id' => $input[0],
 		'limit' => 10,
-		'offset' => (int)$offset
+		'offset' => (int)$input[1]
+	
 	);
 
 
@@ -83,13 +85,14 @@ function get_messages($offset) {
 
 function post_message($array) {
 
-	if ($array[0] != '') { $message_from = sanitize_inputs($array[0]); }
-	$message_body = sanitize_inputs($array[1]);
+	$chatroom_id = (int) $array[0];
+	if ($array[1] != '') { $message_from = sanitize_inputs($array[1]); }
+	$message_body = sanitize_inputs($array[2]);
 
 	$db = new database;
 	$dbh = $db->connect();
 
-	$db->add_message($dbh, $message_body, $message_from);
+	$db->add_message($dbh, $message_body, $message_from, $chatroom_id);
 
 }
 
@@ -113,12 +116,14 @@ function get_images($offset) {
 
 function post_image($array) {
 
-	$url = $array[0];
+	$chatroom_id = $array[0];
+	//delet this 
+	$url = $array[1][0];
 
 	$db = new database;
 	$dbh = $db->connect();
 
-	$db->add_image($dbh, $url);
+	$db->add_image($dbh, $url, $chatroom_id);
 
 }
 

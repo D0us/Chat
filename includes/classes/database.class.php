@@ -21,8 +21,11 @@ class database {
 
 	}
 
-	function add_message($dbh, $body, $from) {
-		$sql = "INSERT INTO messages (`body`, `from`) VALUES (:body, :fro);";
+	function add_message($dbh, $body, $from, $chatroom_id) {
+
+		$chatroom_table = $chatroom_id . '_messages';
+
+		$sql = "INSERT INTO $chatroom_table (`body`, `from`) VALUES (:body, :fro);";
 		$sth = $dbh->prepare($sql);
 		$sth->bindparam(":body", $body);
 		$sth->bindparam(":fro", $from);
@@ -35,8 +38,9 @@ class database {
 
 		$limit = $params['limit'];
 		$offset = $params['offset'];
+		$chatroom_table = $params['chatroom_id'] . '_messages';
 
-		$sql = "SELECT * FROM messages ORDER BY id DESC LIMIT :lim OFFSET :off";
+		$sql = "SELECT * FROM $chatroom_table ORDER BY id DESC LIMIT :lim OFFSET :off";
 		$sth = $dbh->prepare($sql);
 		$sth->bindparam(":lim", $limit, PDO::PARAM_INT);
 		$sth->bindparam(":off", $offset, PDO::PARAM_INT);
@@ -47,9 +51,11 @@ class database {
 		return $result;
 	}
 
-	function add_image($dbh, $url) {
+	function add_image($dbh, $url, $chatroom_id) {
 
-		$sql = "INSERT INTO images (`url`) VALUES (:url);";
+		$chatroom_table = $chatroom_id . '_images';
+
+		$sql = "INSERT INTO $chatroom_table (`url`) VALUES (:url);";
 		$sth = $dbh->prepare($sql);
 		$sth->bindparam(":url", $url, PDO::PARAM_INT);
 		$sth->execute();

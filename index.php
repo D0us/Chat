@@ -72,7 +72,7 @@ function get_chatrooms() {
 		                <th>Join</th>
 		            </tr>
 		        </thead>
-		        <tfoot>
+<!-- 		        <tfoot>
 		            <tr>
 		                <th>Name</th>
 		                <th>Status</th>
@@ -81,42 +81,13 @@ function get_chatrooms() {
 		                <th>lol</th>
 		            </tr>
 		        </tfoot>
-		        <tbody>
-<!-- 		            <tr>
-		                <td>Tiger Nixon</td>
-		                <td>Anonymous</td>
-		                <td>12</td>
-		                <td>12/03/2016</td>
-		                <td><input type="button" class="join-chat" value="Join" onclick="location.href = 'chat.html'"/></td>
-		            </tr>
-		            <tr>
-		                <td>Hectic Chat</td>
-		                <td>Authenticated</td>
-		                <td>5</td>
-		                <td>12/03/2016</td>
-		                <td><input type="button" class="join-chat" value="Join" onclick="location.href = 'chat.html'"/></td>
-		            </tr>
-		            <tr>
-		                <td>Fritz</td>
-		                <td>Anonymous</td>
-		                <td>23</td>
-		                <td>12/03/2016</td>
-		                <td><input type="button" class="join-chat" value="Join" onclick="location.href = 'chat.html'"/></td>
-		            </tr>
-		            <tr>
-		                <td>lololololol</td>
-		                <td>Anonymous</td>
-		                <td>1</td>
-		                <td>12/03/2016</td>
-		                <td><input type="button" class="join-chat" value="Join" onclick="location.href = 'chat.html'"/></td>
-		            </tr>	            	            
- -->		            <?php
+ -->		        <tbody>
+ 		            <?php
 		            	$chatrooms = get_chatrooms();
 		            	foreach ($chatrooms as $chatroom) {
 		            		echo '<tr><td>' . $chatroom['name'] . '</td><td>' . $chatroom['type'] . '</td><td>count</td><td>' . $chatroom['dateadded'] . '</td><td><input type="button" class="join-chat" value="Join" onclick="location.href = \'chat.html?id=' . $chatroom['id'] . '\'"/></td>';
 		            	}
 		            ?>
-
 		        </tbody>
 		    </table>
 		</div>

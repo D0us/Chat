@@ -1,5 +1,6 @@
 $(document).ready( function() {
 
+	window.chatroom_id = get_url_parameter('id');
 	window.global_msgcount = 0;
 
 	get_messages();
@@ -44,18 +45,18 @@ function post_message() {
 	var message_body = $('#message-body-input').val();
 	var message_from = $('#message-from-input').val();
 
-	var message = [];
-	message[0] = message_from;
+	var data = [];
+	data[0] = window.chatroom_id;
+	data[1] = message_from;
+	data[2] = message_body;
 
-	// alert(message[0]);
-	message[1] = message_body;
 
 	$.ajax({
 		method: 'GET',
 		url: 'includes/chat_ajax.php',
 		data: {
 			'data': {function : 'post_message',
-					 input : message
+					 input : data
 					},
 			'ajax': true
 		},
@@ -68,24 +69,36 @@ function post_message() {
 
 function post_image(url) {
 
+	data = [];
+	data[0] = window.chatroom_id;
+	data[1] = url;
+
 	$.ajax({
 		method: 'GET',
 		url: 'includes/chat_ajax.php',
 		data: {
 			'data': {function : 'post_image',
-					 input : url
+					 input : data
 					},
 			'ajax': true
 		},
 		success: function(data) {
-			
+			alert(data);
 		}
 	});
 }
 
+
 function get_messages(load_old) {
 
-	var offset = 0;
+	var offset = 0,
+		data = [];
+
+	data[0] = window.chatroom_id;
+	data[1] = offset;
+
+	// alert(chatroom_id);
+
 	if (load_old) {
 		offset = window.global_msgcount;
 	}
@@ -95,7 +108,7 @@ function get_messages(load_old) {
 		url: 'includes/chat_ajax.php',
 		data: {
 			'data': {function : 'get_messages',
-					 input : offset
+					 input : data
 					},
 			'ajax': true
 		},
@@ -182,12 +195,12 @@ function render_messages(messages) {
 			}				
 
 			console.log(message.id);
-
 		}
 	}
 
 	if (new_messages) {
 		$('#chat-log').animate({
+			// document.getElementById('notification-audio').play();
 			scrollTop: $("#chat-log-bottom").offset().top
 		}, 100);							
 	}
@@ -213,6 +226,22 @@ function check_for_images(text) {
     }
 
 }
+
+var get_url_parameter = function get_url_parameter(sparam) {
+    var spage_url = decodeURIComponent(window.location.search.substring(1)),
+        surl_variables = spage_url.split('&'),
+        sparameter_name,
+        i;
+
+    for (i = 0; i < surl_variables.length; i++) {
+        sparameter_name = surl_variables[i].split('=');
+
+        if (sparameter_name[0] === sparam) {
+            return sparameter_name[1] === undefined ? true : sparameter_name[1];
+        }
+    }
+};
+
 
 //http://stackoverflow.com/questions/37684/how-to-replace-plain-urls-with-links
 function linkify(inputText) {

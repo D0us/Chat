@@ -58,3 +58,7 @@ body {
 #send-button {
 	text-align: center;
 }
+
+#notification-audio {
+	display: none;
+}
