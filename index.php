@@ -72,7 +72,7 @@ function get_chatrooms() {
 		                <th>Join</th>
 		            </tr>
 		        </thead>
-<!-- 		        <tfoot>
+<!-- 		        <tfoot>	
 		            <tr>
 		                <th>Name</th>
 		                <th>Status</th>

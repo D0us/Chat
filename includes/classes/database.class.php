@@ -124,12 +124,12 @@ class database {
 							  KEY `id` (`id`),
 							  KEY `id_2` (`id`)
 							) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=0;
-
 							";
 
 					$sth = $dbh->prepare($sql);	
 					$sth->execute();
-					echo 'success!';
+					//standardise error/success messages
+					echo $result['id'];
 				}
 
 		//if it fucks up roly poly 				

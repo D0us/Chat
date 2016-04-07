@@ -83,7 +83,6 @@ function post_image(url) {
 			'ajax': true
 		},
 		success: function(data) {
-			alert(data);
 		}
 	});
 }

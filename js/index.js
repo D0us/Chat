@@ -48,7 +48,9 @@ function create_chatroom(chatroom_name) {
 			'ajax': true
 		},
 		success: function(data) {
+			//function returns id, make json array with success/failure
 			alert(data);
+			window.location.href = 'chat.html?id=' + data;
 		}
 	});
 }
