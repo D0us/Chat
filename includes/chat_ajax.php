@@ -1,6 +1,10 @@
 <?php
 require('classes/database.class.php');
 
+use voku\helper\AntiXSS;
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
 $data = $_REQUEST['data'];
 
 $function = $data['function'];
@@ -128,19 +132,9 @@ function post_image($array) {
 }
 
 function sanitize_inputs($input) {
- 
-  $search = array(
-    '@<script[^>]*?>.*?</script>@si',   // Strip out javascript
-	/*  
-	'@<[\/\!]*?[^<>]*?>@si',            // Strip out HTML tags
-    '@<style[^>]*?>.*?</style>@siU',    // Strip style tags properly
-    '@<![\s\S]*?--[ \t\n\r]*>@'         // Strip multi-line comments
-    */
-  );
- 
-    $output = preg_replace($search, '', $input);
-    return $output;
+   $antiXss = new AntiXSS();
+   $harmless_string = $antiXss->xss_clean($input);
+   return $harmless_string;
 }
-
 
 ?>
